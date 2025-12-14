@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Status Update: CFR Variants in Kuhn Poker</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        .header-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .header-info p {
+            margin: 5px 0;
+            font-weight: bold;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .status-tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        .status-done {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-todo {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Project Status Update</h1>
+
+    <div class="header-info">
+        <p>Project Title: Comparative Analysis of Counterfactual Regret Minimization (CFR) Variants in Kuhn Poker</p>
+        <p>Students: Yair Menda (207273558), Roy Houber (322274259)</p>
+        <p>Date: December 14, 2025</p>
+    </div>
+
+    <div class="section">
+        <h2>(a) What has been done so far</h2>
+        <p>We have successfully completed the implementation phase of our proposed research and have begun the analysis phase. Key milestones achieved include:</p>
+        <ul>
+            <li><span class="status-tag status-done">Done</span> <strong>Game Engine Implementation:</strong> Developed a fully functional custom simulator for Kuhn Poker, including game tree generation, information set handling, and terminal state evaluation.</li>
+            <li><span class="status-tag status-done">Done</span> <strong>Algorithm Implementation:</strong> Implemented all proposed solver variants:
+                <ul>
+                    <li>Vanilla CFR (Baseline)</li>
+                    <li>CFR+ (with regret flooring and alternating updates)</li>
+                    <li>Discounted CFR (DCFR) with configurable parameters</li>
+                    <li>Linear CFR</li>
+                </ul>
+            </li>
+            <li><span class="status-tag status-done">Done</span> <strong>Extended Scope:</strong> Implemented additional experimental solvers not originally planned, including Quadratic CFR, Exponential CFR, and Pruned CFR, to broaden our comparative analysis.</li>
+            <li><span class="status-tag status-done">Done</span> <strong>Analysis Framework:</strong> Built a robust benchmarking suite (<code>analysis.py</code>) that tracks:
+                <ul>
+                    <li>Exploitability (Nash distance) over iterations.</li>
+                    <li>Memory usage estimates for each solver.</li>
+                    <li>Strategy profiles at key decision points.</li>
+                </ul>
+            </li>
+            <li><span class="status-tag status-done">Done</span> <strong>Preliminary Results:</strong> Generated initial comparative graphs (Exploitability vs. Iterations) confirming that CFR+ and DCFR significantly outperform the Vanilla CFR baseline in convergence speed.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>(b) What is left to do</h2>
+        <p>Our focus now shifts to deep analysis and final reporting. The remaining tasks are:</p>
+        <ul>
+            <li><span class="status-tag status-todo">To Do</span> <strong>High-Fidelity Experiments:</strong> Run long-duration simulations (high iteration counts) to observe tail-end convergence behavior and stability for all variants.</li>
+            <li><span class="status-tag status-todo">To Do</span> <strong>Strategy Profile Analysis:</strong> Specifically analyze the final mixed strategies (e.g., bluffing frequencies) to verify if all solvers converge to the exact same GTO frequencies or if they find different valid equilibria.</li>
+            <li><span class="status-tag status-todo">To Do</span> <strong>Parameter Sensitivity:</strong> Briefly test sensitivity of DCFR to its discount parameters ($\alpha, \beta, \gamma$).</li>
+            <li><span class="status-tag status-todo">To Do</span> <strong>Final Report:</strong> Synthesize all findings into the final project report, interpreting the theoretical implications of the empirical results.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>(c) Problems or issues for assistance</h2>
+        <p>We are currently progressing according to schedule and have not encountered significant blocking issues.</p>
+        <p><em>(Optional query if applicable)</em>: One minor question we are considering is the best metric for "fair" comparison of computational cost—whether iteration count is sufficient, or if we should strictly normalize by wall-clock time given the slight overhead differences between simple and complex update rules (e.g., DCFR vs. Vanilla). We are currently using both iteration count and estimated memory, which we believe is robust.</p>
+    </div>
+
+</body>
+</html>
+
