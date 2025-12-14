@@ -151,6 +151,9 @@
             <li><strong>CFR+:</strong> Implements alternating updates and a regret floor at zero. This solver uses linear averaging for the strategy.</li>
             <li><strong>Discounted CFR (DCFR):</strong> Applies discount factors ($\alpha$, $\beta$, $\gamma$) to historical regrets and average strategies, allowing the agent to "forget" early mistakes.</li>
             <li><strong>Linear CFR:</strong> Applies a linear weight $t$ to the strategy contribution at iteration $t$.</li>
+            <li><strong>Quadratic CFR:</strong> Applies a quadratic weight $t^2$ to the strategy contribution, emphasizing later iterations more strongly.</li>
+            <li><strong>Exponential CFR:</strong> Uses exponential weighting for strategy averaging to focus on the most recent information.</li>
+            <li><strong>Pruned CFR:</strong> Dynamically prunes branches of the game tree with very low reach probability to save computational effort.</li>
             <li><strong>Softmax CFR:</strong> A custom variant that replaces standard Regret Matching with a Softmax (Boltzmann) exploration. This assigns probabilities proportionally to $\exp(regret / T)$, ensuring that even actions with negative regrets maintain a small non-zero probability, which aids in exploration.</li>
         </ul>
     </div>
@@ -172,12 +175,12 @@
         </figure>
 
         <p>
-            The results indicate that DCFR and Softmax CFR provided the steepest decline in exploitability in early iterations compared to the baseline Vanilla CFR. Softmax CFR, in particular, showed remarkable stability.
+            The results indicate that DCFR and Softmax CFR provided the steepest decline in exploitability in early iterations compared to the baseline Vanilla CFR. DCFR achieves this by effectively discounting early regrets that may be based on poor initial strategies, allowing it to adapt more quickly to the evolving game structure. Softmax CFR replaces the strict regret matching with a Boltzmann exploration policy, ensuring that all actions maintain a non-zero probability; this prevents the agent from getting stuck in sub-optimal branches early on and promotes more robust exploration of the game tree. Softmax CFR, in particular, showed remarkable stability.
         </p>
 
         <h3>4.2 Memory Usage vs. Performance</h3>
         <p>
-            We also analyzed the trade-off between memory usage and exploitability.
+            We also analyzed the trade-off between memory usage and exploitability. While complex variants like DCFR require maintaining additional state (discount factors and separate sums), the memory overhead is minimal for small games like Kuhn Poker. The graph illustrates that the convergence benefits of advanced solvers do not come at a prohibitive memory cost, making them efficient choices for this domain.
         </p>
 
         <figure>
@@ -284,7 +287,33 @@
 
         <h3>Appendix B: Selected Code Implementations</h3>
         
-        <h4>1. Discounted CFR (DCFR) Implementation</h4>
+        <h4>1. Vanilla CFR (Baseline) Implementation</h4>
+        <p>The following code demonstrates the core iteration logic for Vanilla CFR, which serves as the baseline for our comparisons.</p>
+        <pre><code>class VanillaCFR(BaseCFR):
+    def _iterate(self) -> None:
+        """
+        Perform one iteration of Vanilla CFR.
+        Traverses the game tree for all possible card deals,
+        updating regrets and strategy sums.
+        """
+        for cards in self.all_deals:
+            state = self.game.new_game(cards)
+            # Equal probability of each deal
+            reach_probs = np.array([1.0, 1.0])
+            self._cfr_recursive(state, reach_probs, self.iterations)
+    
+    def _update_regrets(self, info_set_data: InfoSetData, regrets: np.ndarray, 
+                       counterfactual_reach: float, iteration: int) -> None:
+        """Standard regret accumulation"""
+        info_set_data.regret_sum += counterfactual_reach * regrets
+    
+    def _update_strategy_sum(self, info_set_data: InfoSetData, strategy: np.ndarray,
+                            player_reach: float, iteration: int) -> None:
+        """Standard strategy accumulation with reach probability weighting"""
+        info_set_data.strategy_sum += player_reach * strategy
+        info_set_data.reach_prob_sum += player_reach</code></pre>
+
+        <h4>2. Discounted CFR (DCFR) Implementation</h4>
         <p>The following code demonstrates the core iteration logic for DCFR, showing how discounts ($\alpha, \beta, \gamma$) are applied to regrets and strategies.</p>
         <pre><code>class DiscountedCFR(BaseCFR):
     def _iterate(self) -> None:
@@ -319,7 +348,7 @@
             reach_probs = np.array([1.0, 1.0])
             self._cfr_recursive(state, reach_probs, self.iterations)</code></pre>
 
-        <h4>2. Softmax Exploration Strategy</h4>
+        <h4>3. Softmax Exploration Strategy</h4>
         <p>This snippet shows the custom Softmax strategy generation, which replaces the standard Regret Matching to ensure better exploration.</p>
         <pre><code>@dataclass
 class SoftmaxInfoSetData(InfoSetData):
