@@ -1,0 +1,82 @@
+info_set,description,solver,action_1,prob_1,action_2,prob_2
+J,P1 Jack initial,Vanilla CFR,check,0.7841,bet,0.2159
+J,P1 Jack initial,CFR+,check,0.7655,bet,0.2345
+J,P1 Jack initial,Discounted CFR,check,0.7516,bet,0.2484
+J,P1 Jack initial,Linear CFR,check,0.7879,bet,0.2121
+J,P1 Jack initial,Quadratic CFR,check,0.7918,bet,0.2082
+J,P1 Jack initial,Exponential CFR,check,0.8188,bet,0.1812
+J,P1 Jack initial,Softmax CFR,check,0.7737,bet,0.2263
+J,P1 Jack initial,Random Solver,check,0.5000,bet,0.5000
+J,P1 Jack initial,Pruned CFR,check,0.6629,bet,0.3371
+Q,P1 Queen initial,Vanilla CFR,check,0.9999,bet,0.0001
+Q,P1 Queen initial,CFR+,check,0.9984,bet,0.0016
+Q,P1 Queen initial,Discounted CFR,check,0.9998,bet,0.0002
+Q,P1 Queen initial,Linear CFR,check,1.0000,bet,0.0000
+Q,P1 Queen initial,Quadratic CFR,check,1.0000,bet,0.0000
+Q,P1 Queen initial,Exponential CFR,check,1.0000,bet,0.0000
+Q,P1 Queen initial,Softmax CFR,check,0.9999,bet,0.0001
+Q,P1 Queen initial,Random Solver,check,0.5000,bet,0.5000
+Q,P1 Queen initial,Pruned CFR,check,0.9999,bet,0.0001
+K,P1 King initial,Vanilla CFR,check,0.3316,bet,0.6684
+K,P1 King initial,CFR+,check,0.3017,bet,0.6983
+K,P1 King initial,Discounted CFR,check,0.2596,bet,0.7404
+K,P1 King initial,Linear CFR,check,0.3251,bet,0.6749
+K,P1 King initial,Quadratic CFR,check,0.3188,bet,0.6812
+K,P1 King initial,Exponential CFR,check,0.2757,bet,0.7243
+K,P1 King initial,Softmax CFR,check,0.3286,bet,0.6714
+K,P1 King initial,Random Solver,check,0.5000,bet,0.5000
+K,P1 King initial,Pruned CFR,check,0.0000,bet,1.0000
+Jc,P2 Jack after check,Vanilla CFR,check,0.6643,bet,0.3357
+Jc,P2 Jack after check,CFR+,check,0.6642,bet,0.3358
+Jc,P2 Jack after check,Discounted CFR,check,0.6624,bet,0.3376
+Jc,P2 Jack after check,Linear CFR,check,0.6638,bet,0.3362
+Jc,P2 Jack after check,Quadratic CFR,check,0.6627,bet,0.3373
+Jc,P2 Jack after check,Exponential CFR,check,0.6508,bet,0.3492
+Jc,P2 Jack after check,Softmax CFR,check,0.6675,bet,0.3325
+Jc,P2 Jack after check,Random Solver,check,0.5000,bet,0.5000
+Jc,P2 Jack after check,Pruned CFR,check,0.6691,bet,0.3309
+Qc,P2 Queen after check,Vanilla CFR,check,0.9998,bet,0.0002
+Qc,P2 Queen after check,CFR+,check,1.0000,bet,0.0000
+Qc,P2 Queen after check,Discounted CFR,check,0.9999,bet,0.0001
+Qc,P2 Queen after check,Linear CFR,check,1.0000,bet,0.0000
+Qc,P2 Queen after check,Quadratic CFR,check,1.0000,bet,0.0000
+Qc,P2 Queen after check,Exponential CFR,check,1.0000,bet,0.0000
+Qc,P2 Queen after check,Softmax CFR,check,0.9998,bet,0.0002
+Qc,P2 Queen after check,Random Solver,check,0.5000,bet,0.5000
+Qc,P2 Queen after check,Pruned CFR,check,0.0000,bet,1.0000
+Kc,P2 King after check,Vanilla CFR,check,0.0001,bet,0.9999
+Kc,P2 King after check,CFR+,check,0.0000,bet,1.0000
+Kc,P2 King after check,Discounted CFR,check,0.0001,bet,0.9999
+Kc,P2 King after check,Linear CFR,check,0.0000,bet,1.0000
+Kc,P2 King after check,Quadratic CFR,check,0.0000,bet,1.0000
+Kc,P2 King after check,Exponential CFR,check,0.0000,bet,1.0000
+Kc,P2 King after check,Softmax CFR,check,0.0001,bet,0.9999
+Kc,P2 King after check,Random Solver,check,0.5000,bet,0.5000
+Kc,P2 King after check,Pruned CFR,check,0.0001,bet,0.9999
+Jb,P2 Jack after bet,Vanilla CFR,fold,1.0000,call,0.0000
+Jb,P2 Jack after bet,CFR+,fold,1.0000,call,0.0000
+Jb,P2 Jack after bet,Discounted CFR,fold,1.0000,call,0.0000
+Jb,P2 Jack after bet,Linear CFR,fold,1.0000,call,0.0000
+Jb,P2 Jack after bet,Quadratic CFR,fold,1.0000,call,0.0000
+Jb,P2 Jack after bet,Exponential CFR,fold,1.0000,call,0.0000
+Jb,P2 Jack after bet,Softmax CFR,fold,1.0000,call,0.0000
+Jb,P2 Jack after bet,Random Solver,fold,0.5000,call,0.5000
+Jb,P2 Jack after bet,Pruned CFR,fold,1.0000,call,0.0000
+Qb,P2 Queen after bet,Vanilla CFR,fold,0.6629,call,0.3371
+Qb,P2 Queen after bet,CFR+,fold,0.6625,call,0.3375
+Qb,P2 Queen after bet,Discounted CFR,fold,0.6597,call,0.3403
+Qb,P2 Queen after bet,Linear CFR,fold,0.6666,call,0.3334
+Qb,P2 Queen after bet,Quadratic CFR,fold,0.6688,call,0.3312
+Qb,P2 Queen after bet,Exponential CFR,fold,0.6853,call,0.3147
+Qb,P2 Queen after bet,Softmax CFR,fold,0.6558,call,0.3442
+Qb,P2 Queen after bet,Random Solver,fold,0.5000,call,0.5000
+Qb,P2 Queen after bet,Pruned CFR,fold,0.6579,call,0.3421
+Kb,P2 King after bet,Vanilla CFR,fold,0.0000,call,1.0000
+Kb,P2 King after bet,CFR+,fold,0.0000,call,1.0000
+Kb,P2 King after bet,Discounted CFR,fold,0.0000,call,1.0000
+Kb,P2 King after bet,Linear CFR,fold,0.0000,call,1.0000
+Kb,P2 King after bet,Quadratic CFR,fold,0.0000,call,1.0000
+Kb,P2 King after bet,Exponential CFR,fold,0.0000,call,1.0000
+Kb,P2 King after bet,Softmax CFR,fold,0.0000,call,1.0000
+Kb,P2 King after bet,Random Solver,fold,0.5000,call,0.5000
+Kb,P2 King after bet,Pruned CFR,fold,0.0000,call,1.0000

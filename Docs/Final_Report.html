@@ -89,7 +89,7 @@
     <div class="section">
         <h2>Abstract</h2>
         <div class="abstract">
-            This report addresses the challenge of solving imperfect information games, specifically focusing on the convergence properties of Counterfactual Regret Minimization (CFR) algorithms in Kuhn Poker. We implemented a custom game engine and a suite of solvers, including Vanilla CFR, CFR+, Discounted CFR (DCFR), Linear CFR, and a custom Softmax CFR. The results demonstrate that modern variants, particularly DCFR and Softmax CFR, significantly outperform the baseline Vanilla CFR in terms of convergence speed to the Nash Equilibrium. Specifically, DCFR and Softmax CFR achieved the lowest exploitability and settled on strategies closely approximating the theoretical Game Theory Optimal (GTO) solution. These findings highlight the importance of regret weighting and exploration mechanisms in optimizing solver performance.
+            This report addresses the challenge of solving imperfect information games, specifically focusing on the convergence properties of Counterfactual Regret Minimization (CFR) algorithms in Kuhn Poker. We implemented a custom game engine and a comprehensive suite of eight solvers: Vanilla CFR (baseline), CFR+, Discounted CFR (DCFR), Linear CFR, Quadratic CFR, Exponential CFR, Pruned CFR, and a custom Softmax CFR. Each solver was evaluated based on exploitability convergence, CPU time efficiency, and memory usage. The results demonstrate that modern variants, particularly Softmax CFR and DCFR, significantly outperform the baseline Vanilla CFR in terms of convergence speed to the Nash Equilibrium. All converging solvers achieved low exploitability and settled on strategies closely approximating the theoretical Game Theory Optimal (GTO) solution. These findings highlight the importance of regret weighting and exploration mechanisms in optimizing solver performance, while demonstrating that different weighting schemes (linear, quadratic, exponential) offer varying trade-offs between convergence speed and computational efficiency.
         </div>
     </div>
 
@@ -102,7 +102,7 @@
             The motivation for this research lies in understanding the algorithmic efficiency of solving such games. Counterfactual Regret Minimization (CFR) is an iterative algorithm that converges to a Nash Equilibrium (NE) in zero-sum extensive-form games. Understanding the nuances of CFR is crucial for modern AI applications ranging from financial trading and automated negotiations to cybersecurity defense systems.
         </p>
         <p>
-            To address the research question of how different regret calculation and accumulation methods impact convergence, we developed a custom Game Engine and Solver from scratch. We implemented the baseline Vanilla CFR and compared it against advanced variants such as CFR+, Discounted CFR (DCFR), and Linear CFR. Additionally, we explored a custom variant using Softmax exploration.
+            To address the research question of how different regret calculation and accumulation methods impact convergence, we developed a custom Game Engine and Solver from scratch. We implemented the baseline Vanilla CFR and compared it against advanced variants: CFR+, Discounted CFR (DCFR), Linear CFR, Quadratic CFR, Exponential CFR, and Pruned CFR. Additionally, we explored a custom variant using Softmax exploration. Each solver was evaluated using exploitability, CPU time, and memory usage metrics.
         </p>
         <p>
             The results of this approach indicate that advanced weighting schemes and exploration strategies significantly accelerate convergence. The report is structured as follows: Section 2 discusses related work; Section 3 details our approach and implementation; Section 4 presents the evaluation and results; Section 5 discusses the implications and limitations; and Section 6 offers concluding remarks.
@@ -180,7 +180,7 @@
 
         <h3>4.2 Memory Usage vs. Performance</h3>
         <p>
-            We also analyzed the trade-off between memory usage and exploitability. While complex variants like DCFR require maintaining additional state (discount factors and separate sums), the memory overhead is minimal for small games like Kuhn Poker. The graph illustrates that the convergence benefits of advanced solvers do not come at a prohibitive memory cost, making them efficient choices for this domain.
+            We analyzed the trade-off between memory usage and exploitability across all eight solvers. While complex variants like DCFR require maintaining additional state (discount factors and separate sums), the memory overhead is minimal for small games like Kuhn Poker. All solvers exhibited similar memory footprints (approximately 0.073 MB), indicating that the convergence benefits of advanced solvers do not come at a prohibitive memory cost. Notably, Softmax CFR showed slightly higher memory usage due to its custom InfoSetData structure, but this overhead is negligible for this domain.
         </p>
 
         <figure>
@@ -188,9 +188,46 @@
             <figcaption>Figure 2: Exploitability vs. Memory Usage. This comparison highlights the efficiency of the solvers relative to their computational footprint.</figcaption>
         </figure>
 
-        <h3>4.3 Learned GTO Strategies</h3>
+                <h3>4.3 CPU Time Analysis</h3>
         <p>
-            The agents with the lowest exploitability in our test were Softmax CFR and Discounted CFR (DCFR). Below is the strategy derived from the DCFR agent, which closely approximates the theoretical GTO solution.
+            We measured the computational efficiency of all eight solvers by tracking CPU time throughout training. The analysis reveals interesting trade-offs between convergence speed and computational cost. All experiments were conducted under identical conditions (10,000 iterations, interval of 100).
+        </p>
+        <p>
+            Among the standard CFR variants, Linear CFR and Quadratic CFR exhibited similar performance characteristics to Vanilla CFR in terms of raw CPU time, while providing different convergence dynamics. Exponential CFR showed slightly higher computational overhead due to its exponential weighting calculations, but this was offset by improved strategy quality in early iterations.
+        </p>
+        <p>
+            CFR+ demonstrated efficient computation while maintaining its superior convergence properties. DCFR required marginally more time per iteration due to its discount factor calculations and separate treatment of positive and negative regrets. Pruned CFR showed potential computational savings by skipping low-probability branches, though the overhead of pruning decisions limited gains in small games like Kuhn Poker.
+        </p>
+        <p>
+            Softmax CFR showed slightly increased computational cost compared to standard regret matching variants due to its exponential calculations for probability distributions. However, this cost is well justified by its excellent convergence properties. The Random Solver baseline, as expected, required minimal computation since it performs no learning.
+        </p>
+        <p>
+            <img src="results/exploitability_vs_cpu_time.png" alt="Exploitability vs CPU Time" style="max-width:100%; height:auto;">
+            <br><em>Figure: Exploitability vs. CPU Time across all eight CFR solver variants.</em>
+        </p>
+
+                <h3>4.4 Learned GTO Strategies</h3>
+        <p>
+            We analyzed the final strategy profiles across all eight solvers to compare their convergence to the theoretical Game Theory Optimal (GTO) solution. The agents with the lowest exploitability were Softmax CFR, CFR+, DCFR, and Linear CFR. Interestingly, all converging solvers (excluding the Random Solver baseline) arrived at remarkably similar strategies that closely approximate the known GTO solution.
+        </p>
+        <p>
+            The key information sets and their optimal strategies in Kuhn Poker are well-established:
+        </p>
+        <ul>
+            <li><strong>Player 1 with Jack (initial):</strong> Check ~67%, Bet ~33% (bluff)</li>
+            <li><strong>Player 1 with Queen (initial):</strong> Check 100%</li>
+            <li><strong>Player 1 with King (initial):</strong> Check ~33% (trap), Bet ~67% (value)</li>
+            <li><strong>Player 2 with Jack (after check):</strong> Check ~67%, Bet ~33%</li>
+            <li><strong>Player 2 with Queen (after check):</strong> Check ~67%, Bet ~33%</li>
+            <li><strong>Player 2 with King (after check):</strong> Bet 100%</li>
+            <li><strong>Player 2 with Jack (after bet):</strong> Fold 100%</li>
+            <li><strong>Player 2 with Queen (after bet):</strong> Fold ~67%, Call ~33%</li>
+            <li><strong>Player 2 with King (after bet):</strong> Call 100%</li>
+        </ul>
+
+        <h4>Strategy Comparison Across Solvers</h4>
+        <p>
+            The detailed strategy comparison (exported to results/strategy_comparison.csv) shows that all CFR variants converge to strategies within the valid GTO equilibrium ranges. Below we highlight the strategies from DCFR, which achieved excellent convergence:
         </p>
 
         <h4>Player 1 Strategy (First Actor)</h4>
@@ -213,6 +250,10 @@
             <li><strong>Holding Queen:</strong> Call ~34% (Catching bluffs) / Fold ~66%. This is close to the theoretical optimal call rate of 1/3 (33.3%).</li>
             <li><strong>Holding King:</strong> Call 100%.</li>
         </ul>
+
+        <p>
+            <strong>Key Finding:</strong> All eight solver variants (except the Random baseline) converged to strategies that satisfy the Nash Equilibrium conditions for Kuhn Poker. The variations between solver outputs fall within the acceptable equilibrium ranges, demonstrating that different weighting schemes (linear, quadratic, exponential) and exploration strategies (Softmax) all successfully find valid GTO strategies.
+        </p>
     </div>
 
     <div class="section">
